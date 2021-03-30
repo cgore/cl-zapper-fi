@@ -2,7 +2,7 @@
 
 :v1 = http://api.zapper.fi/v1
 
-# Get Gas Price
+# Get Gas Price (GWei)
 GET :v1/gas-price
 # ⟶
 # {
@@ -10,3 +10,9 @@ GET :v1/gas-price
 #   "fast": 160,
 #   "instant": 196
 # }
+GET :v1/gas-price?network=ethereum
+# Ethereum is the default
+GET :v1/gas-price?network=binance-smart-chain
+#
+GET :v1/gas-price?network=polygon
+#
