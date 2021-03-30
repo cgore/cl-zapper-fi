@@ -1,9 +1,8 @@
 # -*- restclient -*-
 
-:v1 = http://api.zapper.fi/v1/
+:v1 = http://api.zapper.fi/v1
 
 # Get Gas Price
-
 GET :v1/gas-price
 # ⟶
 # {
