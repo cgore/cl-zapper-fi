@@ -1,0 +1,13 @@
+# -*- restclient -*-
+
+:v1 = http://api.zapper.fi/v1/
+
+# Get Gas Price
+
+GET :v1/gas-price
+# ⟶
+# {
+#   "standard": 149.85,
+#   "fast": 160,
+#   "instant": 196
+# }
