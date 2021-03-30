@@ -1,5 +1,6 @@
 (defpackage #:zapper-fi/rest-api
-  (:use :common-lisp))
+  (:use :common-lisp)
+  (:export :get-gas-price))
 (in-package :zapper-fi/rest-api)
 
 (defvar *api* "http://api.zapper.fi/v1")
