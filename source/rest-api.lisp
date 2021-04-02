@@ -10,6 +10,8 @@
 
 (defvar *api* "http://api.zapper.fi/v1")
 
+(defvar *api-cache-ttl-seconds* 60)
+
 (defvar *api-key* "96e0cc51-a62e-42ca-acee-910ea7d2a241")
 
 (defvar *valid-networks* '("ethereum" "binance-smart-chain" "polygon" "xdai"))
