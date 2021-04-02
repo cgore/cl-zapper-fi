@@ -1,7 +1,9 @@
 # -*- restclient -*-
 
+:api-key = 96e0cc51-a62e-42ca-acee-910ea7d2a241
 :v1 = http://api.zapper.fi/v1
 
+################################################################################
 # Get Gas Price (GWei)
 GET :v1/gas-price
 # ⟶
@@ -16,3 +18,7 @@ GET :v1/gas-price?network=binance-smart-chain
 #
 GET :v1/gas-price?network=polygon
 #
+
+################################################################################
+# Get Health - HTTP status of 200 ⇒ okay
+GET :v1/health

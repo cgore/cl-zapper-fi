@@ -39,15 +39,21 @@
          (gethash (string-downcase network) *network-aliases*))
         (t (error 'unknown-network-error :unknown-network network))))
 
-(defun http-get-json (url-components &key query-args)
+(defun http-get (url-components &key (query-args '()))
+  "Make an HTTP GET call to the Zapper.fi API."
+  (dex:get (quri:make-uri :defaults (cond ((stringp url-components)
+                                           (concatenate 'string *api* url-components))
+                                          ((listp url-components)
+                                           (apply 'concatenate 'string *api* url-components)))
+                          :query (if query-args
+                                     (acons "api_key" *api-key* query-args)
+                                     `(("api_key" . ,*api-key*))))))
+
+(defun http-get-json (url-components &key (query-args '()))
   "Make an HTTP GET call to the Zapper.fi API, expecting JSON back, and parse."
   (let ((yason:*parse-json-arrays-as-vectors*   t)
         (yason:*parse-json-booleans-as-symbols* t))
-    (yason:parse (dex:get (quri:make-uri :defaults (cond ((stringp url-components)
-                                                          (concatenate 'string *api* url-components))
-                                                         ((listp url-components)
-                                                          (apply 'concatenate 'string *api* url-components)))
-                                         :query (acons "api_key" *api-key* query-args))))))
+    (yason:parse (http-get url-components :query-args query-args))))
 
 (defun get-gas-price (&optional network)
   "Get the gas price from the API.
@@ -58,3 +64,9 @@ You may optionally specify a network, defaulting to ethereum."
   "Retrieve prices for this network.
 You may optionally specify a network, defaulting to ethereum."
   (http-get-json "/prices" :query-args (when network '(("network" . (canonicalized-network network))))))
+
+(defun get-health ()
+  "The service returns a 200 status code if all is well."
+  (multiple-value-bind (_ http-status-code) (http-get "/health")
+    (declare (ignore _))
+    http-status-code))
