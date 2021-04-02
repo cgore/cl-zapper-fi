@@ -14,6 +14,9 @@
 
 (defvar *api-key* "96e0cc51-a62e-42ca-acee-910ea7d2a241")
 
+(defvar *valid-pools*
+  '("balancer" "bancor" "curve" "loopring" "oneInch" "pancakeswap" "quickswap" "sfinance" "snowswap" "sushiswap" "uniswap" "linkswap" "dodo" "saddle" "xsigma"))
+
 (defvar *valid-networks* '("ethereum" "binance-smart-chain" "polygon" "xdai"))
 
 (defvar *network-aliases* (sigma/hash:populate-hash-table "binance" "binance-smart-chain"
