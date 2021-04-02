@@ -27,6 +27,6 @@
   :version #.(version-string)
   :author author
   :license "BSD 3-Clause"
-  :depends-on ("alexandria" "dexador" "sigma" "yason")
+  :depends-on ("alexandria" "dexador" "quri" "sigma" "yason")
   :components ((:module "source" :components ((:file "main"     :depends-on ("rest-api"))
                                               (:file "rest-api")))))

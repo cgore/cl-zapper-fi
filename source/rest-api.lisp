@@ -39,25 +39,22 @@
          (gethash (string-downcase network) *network-aliases*))
         (t (error 'unknown-network-error :unknown-network network))))
 
-(defun build-url (&rest url-components)
-  (apply #'concatenate 'string *api* url-components))
-
-(defun http-get-json (&rest url-components)
+(defun http-get-json (url-components &key query-args)
   "Make an HTTP GET call to the Zapper.fi API, expecting JSON back, and parse."
   (let ((yason:*parse-json-arrays-as-vectors*   t)
         (yason:*parse-json-booleans-as-symbols* t))
-    (yason:parse (dex:get (apply #'build-url url-components)))))
+    (yason:parse (dex:get (quri:make-uri :defaults (cond ((stringp url-components)
+                                                          (concatenate 'string *api* url-components))
+                                                         ((listp url-components)
+                                                          (apply 'concatenate 'string *api* url-components)))
+                                         :query (acons "api_key" *api-key* query-args))))))
 
 (defun get-gas-price (&optional network)
   "Get the gas price from the API.
 You may optionally specify a network, defaulting to ethereum."
-  (if network
-      (http-get-json "/gas-price?network=" (canonicalized-network network))
-      (http-get-json "/gas-price")))
+  (http-get-json "/gas-price" :query-args (when network '(("network" . (canonicalized-network network))))))
 
 (defun get-prices (&optional network)
   "Retrieve prices for this network.
 You may optionally specify a network, defaulting to ethereum."
-  (if network
-      (http-get-json "/prices?api_key=" *api-key* "&network=" (canonicalized-network network))
-      (http-get-json "/prices?api_key=" *api-key*)))
+  (http-get-json "/prices" :query-args (when network '(("network" . (canonicalized-network network))))))
