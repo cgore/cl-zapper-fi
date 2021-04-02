@@ -10,7 +10,7 @@
 
 (defvar *api* "http://api.zapper.fi/v1")
 
-(defvar *valid-networks* '("ethereum" "binance-smart-chain" "polygon"))
+(defvar *valid-networks* '("ethereum" "binance-smart-chain" "polygon" "xdai"))
 
 (defvar *network-aliases* (sigma/hash:populate-hash-table "binance" "binance-smart-chain"
                                                           "bsc"     "binance-smart-chain"
