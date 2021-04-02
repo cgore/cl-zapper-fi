@@ -14,6 +14,8 @@
 
 (defvar *api-key* "96e0cc51-a62e-42ca-acee-910ea7d2a241")
 
+(defvar *valid-farms* '("masterchef" "single-staking" "geyser" "gauge"))
+
 (defvar *valid-pools*
   '("balancer" "bancor" "curve" "loopring" "oneInch" "pancakeswap" "quickswap" "sfinance" "snowswap" "sushiswap" "uniswap" "linkswap" "dodo" "saddle" "xsigma"))
 
