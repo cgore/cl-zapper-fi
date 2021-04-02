@@ -10,6 +10,8 @@
 
 (defvar *api* "http://api.zapper.fi/v1")
 
+(defvar *api-key* "96e0cc51-a62e-42ca-acee-910ea7d2a241")
+
 (defvar *valid-networks* '("ethereum" "binance-smart-chain" "polygon" "xdai"))
 
 (defvar *network-aliases* (sigma/hash:populate-hash-table "binance" "binance-smart-chain"
@@ -50,3 +52,10 @@ You may optionally specify a network, defaulting to ethereum."
   (if network
       (http-get-json "/gas-price?network=" (canonicalized-network network))
       (http-get-json "/gas-price")))
+
+(defun get-prices (&optional network)
+  "Retrieve prices for this network.
+You may optionally specify a network, defaulting to ethereum."
+  (if network
+      (http-get-json "/prices?api_key=" *api-key* "&network=" (canonicalized-network network))
+      (http-get-json "/prices?api_key=" *api-key*)))
