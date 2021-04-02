@@ -14,10 +14,21 @@
 
 (defvar *api-key* "96e0cc51-a62e-42ca-acee-910ea7d2a241")
 
+(defvar *valid-protocols*
+  '("aave" "aave-amm" "aave-v2" "alpha" "b-protocol" "badger" "balancer" "bancor"
+    "barnbridge" "bitcoin" "compound" "cover" "cream" "curve" "defisaver"
+    "derivadex" "dhedge" "dforce" "dodo" "dsd" "dydx" "esd" "futureswap" "idle"
+    "harvest" "hegic" "keeper-dao" "linkswap" "loopring" "maker" "mooniswap"
+    "1inch" "pancakeswap" "nft" "other" "pickle" "pooltogether" "quickswap"
+    "rari" "realt" "reflexer" "saddle" "sfinance" "shell" "smoothy" "snowswap"
+    "sushiswap" "swerve" "synthetix" "tokensets" "tokens" "uniswap" "uniswap-v2"
+    "unit" "value" "vesper" "xsigma" "yearn"))
+
 (defvar *valid-farms* '("masterchef" "single-staking" "geyser" "gauge"))
 
 (defvar *valid-pools*
-  '("balancer" "bancor" "curve" "loopring" "oneInch" "pancakeswap" "quickswap" "sfinance" "snowswap" "sushiswap" "uniswap" "linkswap" "dodo" "saddle" "xsigma"))
+  '("balancer" "bancor" "curve" "loopring" "oneInch" "pancakeswap" "quickswap"
+    "sfinance" "snowswap" "sushiswap" "uniswap" "linkswap" "dodo" "saddle" "xsigma"))
 
 (defvar *valid-networks* '("ethereum" "binance-smart-chain" "polygon" "xdai"))
 
