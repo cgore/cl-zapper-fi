@@ -99,6 +99,12 @@
       (http-get-json url-components :query-args query-args)
       (http-get-json url-components)))
 
+;; We're making this function alias so that we're being explicitly clear when we
+;; don't want to cache the results of a call for some reason.  If we call
+;; HTTP-GET-JSON-DO-NOT-CACHE we specifically mean you are not to cache the
+;; result but instead you must request each time.
+(sigma/control:function-alias 'http-get-json 'http-get-json-do-not-cache)
+
 (defun get-approval-transaction (token-address spender-address owner-address gas-price)
   "Returns data that can be used to build an ERC20 approval transaction."
   (http-get-json-cached "/approval-transaction"
@@ -106,6 +112,13 @@
                                       ("spenderAddress" . ,(canonicalized-ethereum-address spender-address))
                                       ("ownerAddress"   . ,(canonicalized-ethereum-address owner-address))
                                       ("gasPrice"       . ,(canonicalized-gas-price        gas-price)))))
+
+(defun get-approval-state (token-address spender-address owner-address)
+  "The approved amount for a specific token"
+  (http-get-json-do-not-cache "/approval-state"
+                              :query-args `(("tokenAddress"   . ,(canonicalized-ethereum-address token-address))
+                                            ("spenderAddress" . ,(canonicalized-ethereum-address spender-address))
+                                            ("ownerAddress"   . ,(canonicalized-ethereum-address owner-address)))))
 
 (defun get-fiat-rates ()
   "Retrieve a list of fiat currency exchange rates based on USD."

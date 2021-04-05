@@ -17,6 +17,13 @@
 GET :v1/approval-transaction?:with-api-key&tokenAddress=:token-address&spenderAddress=:spender-address&ownerAddress=:owner-address&gasPrice=:gas-price
 
 ################################################################################
+# The approved amount for a specific token
+:token-address = 0x1f9840a85d5af5bf1d1762f925bdaddc4201f984
+:spender-address = :alec-eth
+:owner-address = :cgore-eth
+GET :v1/approval-state?:with-api-key&tokenAddress=:token-address&spenderAddress=:spender-address&ownerAddress=:owner-address
+
+################################################################################
 # Retrieve a list of fiat currency exchange rates based on USD
 GET :v1/fiat-rates?:with-api-key
 
