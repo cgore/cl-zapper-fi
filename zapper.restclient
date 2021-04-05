@@ -4,6 +4,10 @@
 :v1 = http://api.zapper.fi/v1
 
 ################################################################################
+# Retrieve a list of fiat currency exchange rates based on USD
+GET :v1/fiat-rates?api_key=:api-key
+
+################################################################################
 # Get Gas Price (GWei)
 GET :v1/gas-price
 # ⟶

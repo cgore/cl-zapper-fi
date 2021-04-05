@@ -85,6 +85,10 @@
       (http-get-json url-components :query-args query-args)
       (http-get-json url-components)))
 
+(defun get-fiat-rates ()
+  "Retrieve a list of fiat currency exchange rates based on USD."
+  (http-get-json-cached "/fiat-rates"))
+
 (defun get-gas-price (&optional network)
   "Get the gas price from the API.
 You may optionally specify a network, defaulting to ethereum."
