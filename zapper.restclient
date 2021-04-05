@@ -17,6 +17,16 @@
 GET :v1/approval-transaction?:with-api-key&tokenAddress=:token-address&spenderAddress=:spender-address&ownerAddress=:owner-address&gasPrice=:gas-price
 
 ################################################################################
+# Retrieves balances for multiple addresses for a single protocol
+:protocol = uniswap-v2
+:network = ethereum
+:address1 = :cgore-eth
+:address2 = :alec-eth
+:addresses = addresses%5B%5D
+GET :v1/balances/:protocol?:with-api-key&network=ethereum&:addresses=:address1&:addresses=:address2
+
+
+################################################################################
 # The approved amount for a specific token
 :token-address = 0x1f9840a85d5af5bf1d1762f925bdaddc4201f984
 :spender-address = :alec-eth
