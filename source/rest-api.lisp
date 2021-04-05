@@ -10,7 +10,7 @@
 
 (defvar *api* "http://api.zapper.fi/v1")
 
-(defvar *api-cache-ttl-seconds* 60)
+(defvar *api-cache-timeout-seconds* 60)
 
 (defvar *api-key* "96e0cc51-a62e-42ca-acee-910ea7d2a241")
 
@@ -71,15 +71,22 @@
         (yason:*parse-json-booleans-as-symbols* t))
     (yason:parse (http-get url-components :query-args query-args))))
 
+(function-cache:defcached
+    (http-get-json-cached :timeout *api-cache-timeout-seconds*)
+    (url-components &key (query-args '()))
+  (if query-args
+      (http-get-json url-components :query-args query-args)
+      (http-get-json url-components)))
+
 (defun get-gas-price (&optional network)
   "Get the gas price from the API.
 You may optionally specify a network, defaulting to ethereum."
-  (http-get-json "/gas-price" :query-args (when network '(("network" . (canonicalized-network network))))))
+  (http-get-json-cached "/gas-price" :query-args (when network '(("network" . (canonicalized-network network))))))
 
 (defun get-prices (&optional network)
   "Retrieve prices for this network.
 You may optionally specify a network, defaulting to ethereum."
-  (http-get-json "/prices" :query-args (when network '(("network" . (canonicalized-network network))))))
+  (http-get-json-cached "/prices" :query-args (when network '(("network" . (canonicalized-network network))))))
 
 (defun get-health ()
   "The service returns a 200 status code if all is well."
