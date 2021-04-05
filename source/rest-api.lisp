@@ -43,7 +43,9 @@
              (format stream "Unknown metwork ~A." (unknown-network condition)))))
 
 (defun canonicalized-ethereum-address (address)
-  (cond ((stringp address)
+  (cond ((and (stringp address)
+              (= 42 (length address))
+              (string= "0x" (subseq address 0 2)))
          (string-downcase address))))
 
 (defun canonicalized-gas-price (gas-price)
