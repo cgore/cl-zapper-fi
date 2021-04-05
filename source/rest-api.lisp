@@ -65,6 +65,13 @@
                                      (acons "api_key" *api-key* query-args)
                                      `(("api_key" . ,*api-key*))))))
 
+(function-cache:defcached
+    (http-get-cached :timeout *api-cache-timeout-seconds*)
+    (url-components &key (query-args '()))
+  (if query-args
+      (http-get url-components :query-args query-args)
+      (http-get url-components)))
+
 (defun http-get-json (url-components &key (query-args '()))
   "Make an HTTP GET call to the Zapper.fi API, expecting JSON back, and parse."
   (let ((yason:*parse-json-arrays-as-vectors*   t)
@@ -90,6 +97,6 @@ You may optionally specify a network, defaulting to ethereum."
 
 (defun get-health ()
   "The service returns a 200 status code if all is well."
-  (multiple-value-bind (_ http-status-code) (http-get "/health")
+  (multiple-value-bind (_ http-status-code) (http-get-cached "/health")
     (declare (ignore _))
     http-status-code))
