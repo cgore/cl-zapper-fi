@@ -1,9 +1,17 @@
 (defpackage #:zapper-fi/rest-api
   (:use :common-lisp)
-  (:export :*valid-networks*
-           :*network-aliases*
+  (:export :*network-aliases*
+           :*valid-networks*
+           :canonicalized-ethereum-address
+           :canonicalized-fiat-symbol
+           :canonicalized-gas-price
            :canonicalized-network
+           :get-approval-state
+           :get-approval-transaction
+           :get-fiat-rates
            :get-gas-price
+           :get-health
+           :get-prices
            :unknown-network-error))
 
 (in-package :zapper-fi/rest-api)
@@ -47,6 +55,12 @@
               (= 42 (length address))
               (string= "0x" (subseq address 0 2)))
          (string-downcase address))))
+
+(defun canonicalized-fiat-symbol (fiat-symbol)
+  (cond ((stringp fiat-symbol)
+         (string-upcase fiat-symbol))
+        ((symbolp fiat-symbol)
+         (canonicalized-fiat-symbol (symbol-name fiat-symbol)))))
 
 (defun canonicalized-gas-price (gas-price)
   (cond ((stringp gas-price)
