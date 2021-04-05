@@ -1,5 +1,16 @@
 (defpackage #:zapper-fi
-  (:use :common-lisp))
+  (:use :common-lisp)
+  (:export :fast-gas-price
+           :fiat-rate
+           :gas-price
+           :instant-gas-price
+           :standard-gas-price
+           :usd/btc
+           :usd/fiat-rate
+           :usd/xag
+           :usd/xau
+           :xag/btc
+           :xau/btc))
 (in-package #:zapper-fi)
 
 (defun fiat-rate (fiat-symbol)
