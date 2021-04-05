@@ -99,11 +99,11 @@
 
 (defun get-approval-transaction (token-address spender-address owner-address gas-price)
   "Returns data that can be used to build an ERC20 approval transaction."
-  (http-get-json "/approval-transaction"
-                 :query-args `(("tokenAddress"   . ,(canonicalized-ethereum-address token-address))
-                               ("spenderAddress" . ,(canonicalized-ethereum-address spender-address))
-                               ("ownerAddress"   . ,(canonicalized-ethereum-address owner-address))
-                               ("gasPrice"       . ,(canonicalized-gas-price        gas-price)))))
+  (http-get-json-cached "/approval-transaction"
+                        :query-args `(("tokenAddress"   . ,(canonicalized-ethereum-address token-address))
+                                      ("spenderAddress" . ,(canonicalized-ethereum-address spender-address))
+                                      ("ownerAddress"   . ,(canonicalized-ethereum-address owner-address))
+                                      ("gasPrice"       . ,(canonicalized-gas-price        gas-price)))))
 
 (defun get-fiat-rates ()
   "Retrieve a list of fiat currency exchange rates based on USD."
