@@ -1,11 +1,24 @@
 # -*- restclient -*-
 
+:alec-eth     = 0x049569adb8a1e8A9349E9F1111C7b7993A4612eB
+:cgore-eth    = 0xF3C95410b8F61ae7cBA3Fe0925F64bCa7871e4d5
+:ethereum-eth = 0x0ABa55c93cF7292f71067B0Ba0D8b464592895cA
+
 :api-key = 96e0cc51-a62e-42ca-acee-910ea7d2a241
+:with-api-key = api_key=:api-key
 :v1 = http://api.zapper.fi/v1
 
 ################################################################################
+# Returns data that can be used to build an ERC20 approval transaction
+:token-address = 0x1f9840a85d5af5bf1d1762f925bdaddc4201f984
+:spender-address = :alec-eth
+:owner-address = :cgore-eth
+:gas-price = 83
+GET :v1/approval-transaction?:with-api-key&tokenAddress=:token-address&spenderAddress=:spender-address&ownerAddress=:owner-address&gasPrice=:gas-price
+
+################################################################################
 # Retrieve a list of fiat currency exchange rates based on USD
-GET :v1/fiat-rates?api_key=:api-key
+GET :v1/fiat-rates?:with-api-key
 
 ################################################################################
 # Get Gas Price (GWei)
@@ -22,6 +35,11 @@ GET :v1/gas-price?network=binance-smart-chain
 #
 GET :v1/gas-price?network=polygon
 #
+
+################################################################################
+# Retrieve supported tokens and their prices
+GET :v1/prices?:with-api-key
+
 
 ################################################################################
 # Get Health - HTTP status of 200 ⇒ okay

@@ -42,6 +42,18 @@
   (:report (lambda (condition stream)
              (format stream "Unknown metwork ~A." (unknown-network condition)))))
 
+(defun canonicalized-ethereum-address (address)
+  (cond ((stringp address)
+         (string-downcase address))))
+
+(defun canonicalized-gas-price (gas-price)
+  (cond ((stringp gas-price)
+         gas-price)
+        ((integerp gas-price)
+         (format nil "~D" gas-price))
+        ((numberp gas-price)
+         (format nil "~A" (float gas-price)))))
+
 (defun canonicalized-network (network)
   (cond ((null network)
          "ethereum")
@@ -84,6 +96,14 @@
   (if query-args
       (http-get-json url-components :query-args query-args)
       (http-get-json url-components)))
+
+(defun get-approval-transaction (token-address spender-address owner-address gas-price)
+  "Returns data that can be used to build an ERC20 approval transaction."
+  (http-get-json "/approval-transaction"
+                 :query-args `(("tokenAddress"   . ,(canonicalized-ethereum-address token-address))
+                               ("spenderAddress" . ,(canonicalized-ethereum-address spender-address))
+                               ("ownerAddress"   . ,(canonicalized-ethereum-address owner-address))
+                               ("gasPrice"       . ,(canonicalized-gas-price        gas-price)))))
 
 (defun get-fiat-rates ()
   "Retrieve a list of fiat currency exchange rates based on USD."
