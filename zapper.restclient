@@ -1,12 +1,16 @@
 # -*- restclient -*-
 
+:v1 = http://api.zapper.fi/v1
+
+# Some sample ethereum addresses
 :alec-eth     = 0x049569adb8a1e8A9349E9F1111C7b7993A4612eB
 :cgore-eth    = 0xF3C95410b8F61ae7cBA3Fe0925F64bCa7871e4d5
 :ethereum-eth = 0x0ABa55c93cF7292f71067B0Ba0D8b464592895cA
 
+# There is just a single community API key at the moment, but at some point
+# they'll change it so there's one per site.
 :api-key = 96e0cc51-a62e-42ca-acee-910ea7d2a241
 :with-api-key = api_key=:api-key
-:v1 = http://api.zapper.fi/v1
 
 ################################################################################
 # Returns data that can be used to build an ERC20 approval transaction
