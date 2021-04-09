@@ -108,10 +108,12 @@
 
 (function-cache:defcached
     (http-get-json-cached :timeout *api-cache-timeout-seconds*)
-    (url-components &key (query-args '()))
-  (if query-args
-      (http-get-json url-components :query-args query-args)
-      (http-get-json url-components)))
+    (url-components &key (query-args '()) (final-hook nil))
+  (let ((result (if query-args
+                    (http-get-json url-components :query-args query-args)
+                    (http-get-json url-components))))
+    (when final-hook (funcall final-hook result))
+    result))
 
 ;; We're making this function alias so that we're being explicitly clear when we
 ;; don't want to cache the results of a call for some reason.  If we call
@@ -143,10 +145,32 @@
 You may optionally specify a network, defaulting to ethereum."
   (http-get-json-cached "/gas-price" :query-args (when network '(("network" . (canonicalized-network network))))))
 
+(defvar *prices-by-address*)
+(defvar *prices-by-symbol*)
+
+(defun add-price-to-hashmaps (price-entry)
+  (let* ((address   (gethash "address"  price-entry))
+         (decimals  (gethash "decimals" price-entry))
+         (symbol    (gethash "symbol"   price-entry))
+         (price     (gethash "price"    price-entry))
+         (new-entry (sigma/hash:populate-hash-table :address  address
+                                                    :decimals decimals
+                                                    :symbol   symbol
+                                                    :price    price)))
+    (sigma/hash:sethash address *prices-by-address* new-entry)
+    (sigma/hash:sethash symbol  *prices-by-symbol*  new-entry)))
+
+(defun rebuild-prices-hashmaps (result)
+  (setf *prices-by-address* (make-hash-table :test 'equal))
+  (setf *prices-by-symbol*  (make-hash-table :test 'equal))
+  (map 'vector 'add-price-to-hashmaps result))
+
 (defun get-prices (&optional network)
   "Retrieve prices for this network.
 You may optionally specify a network, defaulting to ethereum."
-  (http-get-json-cached "/prices" :query-args (when network '(("network" . (canonicalized-network network))))))
+  (http-get-json-cached "/prices"
+                        :query-args (when network '(("network" . (canonicalized-network network))))
+                        :final-hook 'rebuild-prices-hashmaps))
 
 (defun get-health ()
   "The service returns a 200 status code if all is well."
