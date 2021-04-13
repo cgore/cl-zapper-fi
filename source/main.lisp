@@ -5,12 +5,12 @@
            :gas-price
            :instant-gas-price
            :standard-gas-price
-           :usd/btc
-           :usd/fiat-rate
-           :usd/xag
-           :usd/xau
-           :xag/btc
-           :xau/btc))
+           :btc-usd
+           :fiat-rate-inverted
+           :xag-usd
+           :xau-usd
+           :btc-xag
+           :btc-xau))
 (in-package #:zapper-fi)
 
 (defun fiat-rate (fiat-symbol)
@@ -18,31 +18,31 @@
   (gethash (zapper-fi/rest-api:canonicalized-fiat-symbol fiat-symbol)
            (zapper-fi/rest-api:get-fiat-rates)))
 
-(defun usd/fiat-rate (fiat-symbol)
+(defun fiat-rate-inverted (fiat-symbol)
   "Lookup the current fiat currency exchange rate for something in US Dollars, but inverted."
   (/ 1 (fiat-rate fiat-symbol)))
 
-(defun usd/btc ()
+(defun btc-usd ()
   "The value of Bitcoin in US Dollars."
-  (usd/fiat-rate :btc))
+  (fiat-rate-inverted :btc))
 
-(defun usd/xag ()
+(defun xag-usd ()
   "The value of one troy ounce of silver in US Dollars."
-  (usd/fiat-rate :xag))
+  (fiat-rate-inverted :xag))
 
-(defun usd/xau ()
+(defun xau-usd ()
   "The value of one troy ounce of gold in US Dollars."
-  (usd/fiat-rate :xau))
+  (fiat-rate-inverted :xau))
 
-(defun xag/btc ()
+(defun btc-xag ()
   "The value of one troy ounce of silver in Bitcoin, translated via US Dollar."
-  (/ (usd/btc)
-     (usd/xag)))
+  (/ (btc-usd)
+     (xag-usd)))
 
-(defun xau/btc ()
+(defun btc-xau ()
   "The value of one troy ounce of gold in Bitcoin, translated via US Dollar."
-  (/ (usd/btc)
-     (usd/xau)))
+  (/ (btc-usd)
+     (xau-usd)))
 
 (defun gas-price (speed &optional network)
   (gethash speed (zapper-fi/rest-api:get-gas-price network)))
