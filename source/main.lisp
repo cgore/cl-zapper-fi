@@ -1,8 +1,10 @@
 (defpackage #:zapper-fi
   (:use :common-lisp)
-  (:export :/xag
+  (:export :/eth
+           :/xag
            :/xau
            :1/fiat-rate
+           :btc/eth
            :btc/usd
            :btc/xag
            :btc/xau
@@ -47,6 +49,11 @@
   "Translate a per-USD price into a per-XAG (silver) toz price."
   (/ /usd (xag/usd)))
 
+(defun /eth (fiat-symbol)
+  "The value of some coin expressed in Ether, translated via US Dollar."
+  (/ (1/fiat-rate fiat-symbol)
+     (eth/usd)))
+
 (defun /xag (fiat-symbol)
   "The value of some coin expressed in troy ounces of silver, translated via US Dollar."
   (/ (1/fiat-rate fiat-symbol)
@@ -57,6 +64,10 @@
   (/ (1/fiat-rate fiat-symbol)
      (xau/usd)))
 
+(defun btc/eth ()
+  "The value of Bitcoin expressed in Ether, translated via US Dollar."
+  (/eth :btc))
+
 (defun btc/xag ()
   "The value of Bitcoin expressed in troy ounces of silver, translated via US Dollar."
   (/xag :btc))
@@ -66,11 +77,11 @@
   (/xau :btc))
 
 (defun eth/xag ()
-  "The value of Ethereum expressed in troy ounces of silver, translated via US Dollar."
+  "The value of Ether expressed in troy ounces of silver, translated via US Dollar."
   (/xag :eth))
 
 (defun eth/xau ()
-  "The value of Ethereum expressed in troy ounces of gold, translated via US Dollar."
+  "The value of Ether expressed in troy ounces of gold, translated via US Dollar."
   (/xau :eth))
 
 (defun gas-price (speed &optional network)
