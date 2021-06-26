@@ -43,18 +43,18 @@ GET :v1/fiat-rates?:with-api-key
 
 ################################################################################
 # Get Gas Price (GWei)
-GET :v1/gas-price
+GET :v1/gas-price?:with-api-key
 # ⟶
 # {
 #   "standard": 149.85,
 #   "fast": 160,
 #   "instant": 196
 # }
-GET :v1/gas-price?network=ethereum
+GET :v1/gas-price?network=ethereum?:with-api-key
 # Ethereum is the default
-GET :v1/gas-price?network=binance-smart-chain
+GET :v1/gas-price?network=binance-smart-chain?:with-api-key
 #
-GET :v1/gas-price?network=polygon
+GET :v1/gas-price?network=polygon?:with-api-key
 #
 
 ################################################################################
